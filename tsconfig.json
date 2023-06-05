@@ -24,7 +24,7 @@
     "**/*.tsx",
     "pages/demo.js",
     "pages/Components/Navbar.js"
-  ],
+, "service/token.js", "service/event.js", "service/branch.js", "service/axios.js"  ],
   "exclude": [
     "node_modules"
   ]

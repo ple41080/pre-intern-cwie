@@ -7,11 +7,14 @@ import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import ComplexNavbar from '../Components/newNav'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export default function Example() {
+export default function Summary() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [setIsModalCalendar, setIsCalendarOpen] = useState(false);
   const [setIsModaladd, setIsAddOpen] = useState(false);
+  const router = useRouter();
+  
   const data = [
     {
       key: '1',
@@ -214,10 +217,14 @@ export default function Example() {
 
 
   ];
+
+
+
   const App = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+   
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
       setSearchText(selectedKeys[0]);
@@ -396,24 +403,7 @@ export default function Example() {
     <div className="relative isolate overflow-hidden py-3 sm:py-5 lg:py-5 tracking-wider bg-slate-50 ">
       <ComplexNavbar/>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* <div className="mx-auto grid max-w-2xl grid-cols-1 gap-y-8 gap-x-8 lg:mb-3 lg:max-w-none lg:grid-cols-2">
-          <div className="max-w-xl lg:max-w-lg ">
-          <p className="text-3xl tracking-widest sm:text-left lg:mt-8 text-center lg:text-start text-black sm:text-4xl">Faculty&nbsp;of&nbsp;Industrial&nbsp;Technology</p>
-          </div>
-          <dl className="grid grid-cols-1 gap-x-0 lg:ml-20 gap-y-2 sm:grid-cols-2 lg:pt-2 ">
-            <div className="flex flex-col lg:items-end">
-                    <button onClick={showCalendar} type="button" class="hover:-translate-y-1 hover:scale-110 duration-300 hover:bg-red-800 transition ease-in-out delay-150 mb-5 tracking-wider text-rose-700 bg-white shadow hover:text-white font-medium rounded-full text-sm px-20 py-4 text-center"><svg className='h-8 ml-3 flex' fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path clip-rule="evenodd" fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"></path>
-                    </svg>Calendar</button>
-            </div>
-            <div className="flex flex-col lg:items-end ">
-                    <button onClick={showAdd} type="button" class="hover:-translate-y-1 hover:scale-110 duration-300 hover:bg-red-800 mb-5 tracking-wider text-rose-700 bg-white shadow hover:text-white font-medium rounded-full text-sm px-20 py-4 text-center">
-                    <svg className='h-8 ml-3 flex' fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M6 3a3 3 0 00-3 3v2.25a3 3 0 003 3h2.25a3 3 0 003-3V6a3 3 0 00-3-3H6zM15.75 3a3 3 0 00-3 3v2.25a3 3 0 003 3H18a3 3 0 003-3V6a3 3 0 00-3-3h-2.25zM6 12.75a3 3 0 00-3 3V18a3 3 0 003 3h2.25a3 3 0 003-3v-2.25a3 3 0 00-3-3H6zM17.625 13.5a.75.75 0 00-1.5 0v2.625H13.5a.75.75 0 000 1.5h2.625v2.625a.75.75 0 001.5 0v-2.625h2.625a.75.75 0 000-1.5h-2.625V13.5z"></path>
-                    </svg>Add&nbsp;Event</button>
-            </div>
-          </dl>
-        </div> */}
+     
         <div className="h-full py-2 mb-5 px-4 align-item-center flex justify-center">
           <dl className="grid grid-cols-1 lg:gap-x-40 lg:ml-14 gap-y-2 lg:grid-cols-3 lg:pt-2">
 
@@ -470,7 +460,7 @@ export default function Example() {
             </Form.Item>
           </div>
           <div className='w-full text-end lg:items-center my-5 lg:my-0 lg:w-1/12'>
-          <Link className='' href="DashboardT">
+          <Link  href={"/admin"}>
             <button type="button" class="hover:translate-1 hover:scale-110 duration-300 text-rose-600 hover:bg-rose-700 shadow bg-orange-50 hover:text-white font-medium rounded-lg text-sm px-9 py-2.5 text-center inline-flex items-center mr-2">
               &nbsp;&nbsp;Dashboard
             </button>

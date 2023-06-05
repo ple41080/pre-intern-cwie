@@ -1,5 +1,6 @@
 import { radio } from '@material-tailwind/react';
 import { Button, Form, Radio, Card, Space, Input } from 'antd';
+import FormStudent from '../Components/FormStudent';
 export default function InputEvent() {
     return (
         <Form className="flex bg-left-bottom bg-gradient-to-t from-red-900 via-red-500 to-yellow-50 min-h-full items-center justify-center pt-12 sm:px-5 md:text-start text-center px-2">
@@ -472,7 +473,11 @@ export default function InputEvent() {
                     </div>
                 </div>
 
-               
-            </card></Form>
+                {/* date Start: 25/04/2566
+                    name: petch samat 
+                    last Edit:05/05/2566 */}
+            </card>
+            </Form>
+   <FormStudent/>
     )
 }

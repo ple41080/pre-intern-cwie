@@ -1,11 +1,10 @@
 import React from 'react'
 import { Button } from 'antd';
 import { FormOutlined} from '@ant-design/icons';
-import SimpleData from './SimpleData';
 import {Table} from "antd";
 
-export default function Eventcolumn({tokenShow, eventShow}){
-    const Data = SimpleData();
+export default function TableEvent({tokenShow, eventShow}){
+  
     const columns = [
         {
             title: 'เข้าร่วม',

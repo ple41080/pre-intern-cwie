@@ -1,18 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { Form, Col, Row, Space, Table, Tag, Button, Modal, StyleSheet, Card, Input } from 'antd'
-import { UsergroupAddOutlined } from '@ant-design/icons';
-import InputEvent from '../student/formstudent';
-import App1 from '../Components/showCalendar';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import ComplexNavbar from '../Components/newNav'
 import Link from 'next/link';
-import InputEventBranch from '../Components/InputEventBranch';
 
-export default function Example() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [setIsModalCalendar, setIsCalendarOpen] = useState(false);
-  const [setIsModaladd, setIsAddOpen] = useState(false);
+import { useRouter } from 'next/router';
+
+export default function FormListStudent() {
+  const [IsModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
   const data = [
     {
       key: '1',
@@ -105,6 +103,7 @@ export default function Example() {
 
 
   ];
+
   const App = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -274,6 +273,8 @@ export default function Example() {
       }}
     />
   };
+
+
   const showCalendar = () => {
     setIsCalendarOpen(true);
   };
@@ -297,38 +298,16 @@ export default function Example() {
   };
   return (
     <div className="relative isolate overflow-hidden py-3 sm:py-5 lg:py-5 tracking-wider bg-slate-50 ">
-      <ComplexNavbar/>
+      <ComplexNavbar />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* <div className="mx-auto grid max-w-2xl grid-cols-1 gap-y-8 gap-x-8 lg:mb-3 lg:max-w-none lg:grid-cols-2">
-          <div className="max-w-xl lg:max-w-lg ">
-          <p className="text-3xl tracking-widest sm:text-left lg:mt-8 text-center lg:text-start text-black sm:text-4xl">Faculty&nbsp;of&nbsp;Industrial&nbsp;Technology</p>
-          </div>
-          <dl className="grid grid-cols-1 gap-x-0 lg:ml-20 gap-y-2 sm:grid-cols-2 lg:pt-2 ">
-            <div className="flex flex-col lg:items-end">
-                    <button onClick={showCalendar} type="button" class="hover:-translate-y-1 hover:scale-110 duration-300 hover:bg-red-800 transition ease-in-out delay-150 mb-5 tracking-wider text-rose-700 bg-white shadow hover:text-white font-medium rounded-full text-sm px-20 py-4 text-center"><svg className='h-8 ml-3 flex' fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path clip-rule="evenodd" fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"></path>
-                    </svg>Calendar</button>
-            </div>
-            <div className="flex flex-col lg:items-end ">
-                    <button onClick={showAdd} type="button" class="hover:-translate-y-1 hover:scale-110 duration-300 hover:bg-red-800 mb-5 tracking-wider text-rose-700 bg-white shadow hover:text-white font-medium rounded-full text-sm px-20 py-4 text-center">
-                    <svg className='h-8 ml-3 flex' fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M6 3a3 3 0 00-3 3v2.25a3 3 0 003 3h2.25a3 3 0 003-3V6a3 3 0 00-3-3H6zM15.75 3a3 3 0 00-3 3v2.25a3 3 0 003 3H18a3 3 0 003-3V6a3 3 0 00-3-3h-2.25zM6 12.75a3 3 0 00-3 3V18a3 3 0 003 3h2.25a3 3 0 003-3v-2.25a3 3 0 00-3-3H6zM17.625 13.5a.75.75 0 00-1.5 0v2.625H13.5a.75.75 0 000 1.5h2.625v2.625a.75.75 0 001.5 0v-2.625h2.625a.75.75 0 000-1.5h-2.625V13.5z"></path>
-                    </svg>Add&nbsp;Event</button>
-            </div>
-          </dl>
-        </div> */}
         <div className="h-full py-2 mb-5 px-4 align-item-center flex justify-center">
           <dl className="grid grid-cols-1 lg:gap-x-40 lg:ml-14 gap-y-2 lg:grid-cols-3 lg:pt-2">
 
             <div>
               <p className="lg:text-4xl text-xl tracking-widest sm:text-left lg:mt-12 my-5 sm:my-auto text-center lg:text-start text-green-700 sm:text-4xl"><span className='text-red-500'>Faculty</span>&nbsp;of&nbsp;Industrial&nbsp;Technology</p>
             </div>
-
-            
           </dl>
-
         </div>
-
         <Form
           layout="inline" className='gap-x-1 text-center align-middle'
         >
@@ -337,7 +316,7 @@ export default function Example() {
           </div>
           <div className=' lg:w-1/3 w-full '>
             <Form.Item >
-              <select id="subject" class="bg-white border tracking-wider border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-slate-400 focus:border-blue-100 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <select id="subject" className="bg-white border tracking-wider border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-slate-400 focus:border-blue-100 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="">ทั้งหมด</option>
                 <option value="">สาขาทั้งหมด</option>
                 <option value="">วิศวกรรมไฟฟ้าและอิเล็กทรอนิกส์</option>
@@ -353,7 +332,7 @@ export default function Example() {
           </div>
           <div className='w-full lg:w-1/6 '>
             <Form.Item>
-              <select id="YearS" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-slate-400 focus:border-blue-100  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <select id="YearS" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-slate-400 focus:border-blue-100  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="">ทั้งหมด</option>
                 <option value="">2566</option>
                 <option value="">2565</option>
@@ -365,7 +344,7 @@ export default function Example() {
           </div>
           <div className='w-full lg:w-1/6'>
             <Form.Item>
-              <select id="Path" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-slate-400 focus:border-blue-100 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <select id="Path" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-slate-400 focus:border-blue-100 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="">ทั้งหมด</option>
                 <option value="">ภาคเรียนที่ 1</option>
                 <option value="">ภาคเรียนที่ 2</option>
@@ -373,17 +352,17 @@ export default function Example() {
             </Form.Item>
           </div>
           <div className='w-full text-end lg:items-center my-5 lg:my-0 lg:w-1/12'>
-          <Link className='' href="Summary">
-            <button type="button" class="hover:translate-1 hover:scale-110 duration-300 text-rose-600 hover:bg-rose-700 shadow bg-orange-50 hover:text-white font-medium rounded-lg text-sm px-9 py-2.5 text-center inline-flex items-center mr-2">
-              &nbsp;&nbsp;Summary
-            </button>
-          </Link>
+            <Link href="/admin/Summary" >
+              <button type="button" className="hover:translate-1 hover:scale-110 duration-300 text-rose-600 hover:bg-rose-700 shadow bg-orange-50 hover:text-white font-medium rounded-lg text-sm px-9 py-2.5 text-center inline-flex items-center mr-2">
+                &nbsp;&nbsp;Summary
+              </button>
+            </Link>
           </div></Form>
         <Card className='w-full border-gray-100 border-2 mt-0 lg:mt-5'><App /></Card>
       </div>
-      
+
     </div>
-    
+
 
   )
 }

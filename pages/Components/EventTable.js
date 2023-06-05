@@ -1,76 +1,94 @@
-import React from "react";
-import { Form, Table} from "antd";
-import {BulbOutlined } from '@ant-design/icons';
+import React, { useEffect } from "react";
+import { Button, Form, Table } from "antd";
+import { BulbOutlined, FormOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { useState } from 'react';
-import Eventcolumn from './Eventcolumn';
-import SimpleData from "./SimpleData";
-import SimpleForm from './Form'
-import Form2 from "./Form2";
+import { getAllEventStudentData } from "../../service/event";
+import SimpleForm from "./Form";
 
 export default function EventTable() {
-    
 
-    const Data = SimpleData();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEventOpen, setIsEventOpen] = useState(false);
-    const [selectedTokenIndex, setSelectedTokenIndex] = useState(0);
-    const [selecteddetailIndex, setSelectedDetailIndex] = useState(0);
-    const indexValue = Data.map((index) => index.twotime);
-    const Detail =[
-        {
-            key: '1',
-            title: 'รหัสกิจกรรม',
-            detail: Data[selecteddetailIndex].EventKey,
-          },
-          {
-            key: '2',
-            title: 'ชื่อกิจกรรม',
-            detail: Data[selecteddetailIndex].EventName,
-          },
-          {
-            key: '3',
-            title: 'ระดับกิจกรรม',
-            detail: Data[selecteddetailIndex].EventRank,
-          },
-          {
-            key: '4',
-            title: 'สถานะกิจกรรม',
-            detail: Data[selecteddetailIndex].status,
-          },
-          {
-            key: '5',
-            title: 'ระดับการศึกษา',
-            detail: Data[selecteddetailIndex].Edurank,
-          },
-          {
-            key: '6',
-            title: 'ชั่วโมง',
-            detail: Data[selecteddetailIndex].HourCount,
-          },
-          {
-            key: '7',
-            title: 'จำนวนที่เปิดรับ',
-            detail: Data[selecteddetailIndex].Bodycount,
-          },
-          {
-            key: '8',
-            title: 'วันที่เริ่มกิจกรรม',
-            detail: Data[selecteddetailIndex].begin,
-          },
-          {
-            key: '9',
-            title: 'วันที่สิ้นสุดกิจกรรม',
-            detail: Data[selecteddetailIndex].end,
-          },
-          {
-            key: '10',
-            title: 'สถานที่จัดกิจกรรม',
-            detail: Data[selecteddetailIndex].place,
-          },
+    const [selectedTokenIndex, setSelectedTokenIndex] = useState();
+    const [selecteddetailIndex, setSelectedDetailIndex] = useState();
+    const [data, setData] = useState();
 
-    ]
-    const Detailcolumn = [
+    useEffect(() => {
+        syncData()
+    }, [])
+
+    const syncData = async () => {
+        const getEventStudent = await getAllEventStudentData();
+
+        setData(getEventStudent.data)
+    }
+
+    const columns = [
+        {
+            title: 'เข้าร่วม',
+            dataIndex: 'join',
+            key: 'join',
+            responsive: ['xs', 'sm', 'xl'],
+            render: (text, record, index) =>
+                <div>
+                    <Button onClick={tokenShow(record)} >
+                        <FormOutlined /> เข้าร่วมกิจกรรม
+                    </Button>
+                </div>
+        },
+        {
+            title: "รหัสกิจกรรม",
+            dataIndex: "secret_token",
+            key: "secret_token",
+            responsive: ['xl'],
+        },
+        {
+            title: "ชื่อกิจกรรม",
+            dataIndex: "title",
+            key: "title",
+            responsive: ['xs', 'sm', 'xl'],
+            render: (text, record, index) =>
+                <a onClick={eventShow(index)} className="underline">{record.title}</a>
+
+            ,
+        },
+        {
+            title: 'ปีการศึกษา',
+            key: 'year',
+            responsive: ['xl'],
+            render: (text) => <p>{text.term}/{text.year}</p>,
+        },
+
+        {
+            title: "ระดับกิจกรรม",
+            key: "level_event",
+            dataIndex: "level_event",
+            responsive: ['xl'],
+
+        },
+        {
+            title: "จำนวนที่รับ",
+            key: "quota",
+            responsive: ['xl'],
+            render: (_, record) => {
+                let list = 0;
+                for (let i of record.Token) {
+                    if(i.EventStudentList !== null){
+                        list += 1
+                    }
+                }
+                return <p>{list}/{_.quota}</p>
+            }
+        },
+        {
+            title: "จำนวนชั่วโมง",
+            key: "hour_event",
+            dataIndex: "hour_event",
+            responsive: ['xs', 'sm', 'xl'],
+        },
+    ];
+    const DetailColumn = [
         {
             title: "",
             dataIndex: "title",
@@ -102,7 +120,7 @@ export default function EventTable() {
         setIsModalOpen(false);
     };
     // Event modal
-    const eventShow = (index) =>() => {
+    const eventShow = (index) => () => {
         setSelectedDetailIndex(index)
         setIsEventOpen(true);
     };
@@ -117,28 +135,27 @@ export default function EventTable() {
 
     return (
         <div>
-            <Eventcolumn tokenOk={tokenOk} tokenShow={tokenShow} eventShow={eventShow}/>
+
+            <Table columns={columns} dataSource={data} style={{ overflow: "auto" }} />
+
             <Modal
-                title={[<BulbOutlined key={Form}/>, ' กรอกโทเคนคีย์ให้ถูกต้อง']}
+                title={[<BulbOutlined key={Form} />, ' กรอกโทเคนคีย์ให้ถูกต้อง']}
                 open={isModalOpen}
                 onCancel={tokenCancel}
                 footer={[
-                    <button key={Form} type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={tokenCancel}>
-                        Cancel
-                    </button>,
-                ]}>
 
-                {indexValue[selectedTokenIndex] ? <SimpleForm /> : <Form2 />}
+                ]}>
+                <SimpleForm data={selectedTokenIndex} />
             </Modal>
             <Modal
-                title={[<BulbOutlined key={Detail} />, 'ข้อมูลกิจกรรม']}
+                title={[<BulbOutlined key={data?.id} />, 'ข้อมูลกิจกรรม']}
                 open={isEventOpen} onCancel={eventCancel}
                 footer={[
-                    <button key={Detail} type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={eventCancel}>
+                    <button key={data?.id} type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={eventCancel}>
                         Cancel
                     </button>,
                 ]}>
-                    <Table columns={Detailcolumn} dataSource={Detail}/>
+                <Table columns={DetailColumn} dataSource={selecteddetailIndex} />
             </Modal>
         </div>
     );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   MobileNav,
@@ -25,7 +25,8 @@ import {
   RocketLaunchIcon,
   Bars2Icon,
 } from "@heroicons/react/24/outline";
- 
+import { useRouter } from "next/router";
+
 // profile menu component
 const profileMenuItems = [
   {
@@ -50,11 +51,11 @@ const profileMenuItems = [
     hrefl: '../main#'
   },
 ];
- 
+
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
- 
+
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -72,9 +73,8 @@ function ProfileMenu() {
           /> */}
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`h-3 w-3 transition-transform ${
-              isMenuOpen ? "rotate-180" : ""
-            }`}
+            className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""
+              }`}
           />
         </Button>
       </MenuHandler>
@@ -85,11 +85,10 @@ function ProfileMenu() {
             <MenuItem
               key={label}
               onClick={closeMenu}
-              className={`flex items-center gap-2 rounded ${
-                isLastItem
+              className={`flex items-center gap-2 rounded ${isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                   : ""
-              }`}
+                }`}
             >
               {React.createElement(icon, {
                 className: `h-5 w-5 ${isLastItem ? "text-red-500" : ""}`,
@@ -111,31 +110,30 @@ function ProfileMenu() {
     </Menu>
   );
 }
- 
+
 // nav list menu
 const navListMenuItems = [
   {
     title: "กิจกรรม(คณะ)",
     // description:
     //   "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
-      hrefl: '../admin/EventLeader#'
+
   },
   {
     title: "กิจกรรม(สาขา)",
     // description:
     //   "Learn how to use @material-tailwind/react, packed with rich components for React.",
-      hrefl: '../admin/EventBranch#'
   }
 ];
- 
+
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
- 
+
   const triggers = {
     onMouseEnter: () => setIsMenuOpen(true),
     onMouseLeave: () => setIsMenuOpen(false),
   };
- 
+
   const renderItems = navListMenuItems.map(({ title, description, hrefl }) => (
     <a href={hrefl} key={title}>
       <MenuItem className="border-b">
@@ -148,7 +146,7 @@ function NavListMenu() {
       </MenuItem>
     </a>
   ));
- 
+
   // return (
   //   <React.Fragment >
   //     <Menu open={isMenuOpen} handler={setIsMenuOpen}>
@@ -194,17 +192,17 @@ function NavListMenu() {
   //   </React.Fragment>
   // );
 }
- 
+
 // nav list component
 const navListItems = [
-//   {
-//     label: "Account",
-//     icon: UserCircleIcon,
-//   },
+  //   {
+  //     label: "Account",
+  //     icon: UserCircleIcon,
+  //   },
   {
     label: "กิจกรรม",
     icon: Square3Stack3DIcon,
-    hrefl: '../admin/EventBranch#'
+    hrefl: '../admin/EventBranch'
   },
   {
     label: "รายชื่อนักศึกษา",
@@ -212,7 +210,7 @@ const navListItems = [
     hrefl: '../admin/listName#'
   },
 ];
- 
+
 function NavList() {
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center text-slate-700">
@@ -250,24 +248,24 @@ function NavList() {
     </ul>
   );
 }
- 
+
 export default function ComplexNavbar() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
- 
+  const router = useRouter()
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setIsNavOpen(false)
     );
   }, []);
- 
+
   return (
     <Navbar className="shadow-lg mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6 text-slate-700 ">
       <div className="relative mx-auto flex items-center text-blue-gray-900">
         <Typography
           as="a"
-          href="#"
+          onClick={() => router.push('/')}
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
           คณะเทคโนโลยีอุตสาหกรรม
@@ -282,7 +280,7 @@ export default function ComplexNavbar() {
           onClick={toggleIsNavOpen}
           className="ml-auto mr-2 lg:hidden"
         >
-          <Bars2Icon style={{margin:-12}} className="h-6 w-6"/>
+          <Bars2Icon style={{ margin: -12 }} className="h-6 w-6" />
         </IconButton>
         <ProfileMenu />
       </div>

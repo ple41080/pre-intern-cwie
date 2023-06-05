@@ -29,17 +29,9 @@ import {
 // profile menu component
 const profileMenuItems = [
   {
-    label: "ข้อมูลส่วนตัว",
-    icon: UserCircleIcon,
-  },
-  {
-    label: "แก้ไข้อมูลส่วนตัว",
-    icon: Cog6ToothIcon,
-  },
-  {
     label: "Sign Out",
     icon: PowerIcon,
-    hrefl: '../main#'
+    href: '../main#'
   },
 ];
  
@@ -109,7 +101,6 @@ const navListMenuItems = [
     title: "กิจกรรม(คณะ)",
     // description:
     //   "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
-      hrefl: '../EventLeader#'
   },
   {
     title: "กิจกรรม(สาขา)",
@@ -257,8 +248,7 @@ export default function Qwe() {
     <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6 text-slate-700 ">
       <div className="relative mx-auto flex items-center text-blue-gray-900">
         <Typography
-          as="a"
-          href="../mainStudent#"
+          href="/student"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
           Faculty&nbsp;of&nbsp;Industrial&nbsp;Technology
