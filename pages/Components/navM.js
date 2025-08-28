@@ -25,20 +25,25 @@ import {
   RocketLaunchIcon,
   Bars2Icon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
  
 // profile menu component
 const profileMenuItems = [
   {
     label: "Sign Out",
     icon: PowerIcon,
-    href: '../main#'
+   
   },
 ];
  
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
- 
+  const router = useRouter();
+  const singOut = () => {
+    localStorage.clear();
+    router.push(`${process.env.NEXT_PUBLIC_WEB_URL_CWIE}`)
+  }
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -80,7 +85,7 @@ function ProfileMenu() {
               })}
               <Typography
                 as="a"
-                href={hrefl}
+                onClick={()=>singOut()}
                 variant="small"
                 className=" font-extralight"
                 color={isLastItem ? "red" : "inherit"}
@@ -106,7 +111,7 @@ const navListMenuItems = [
     title: "กิจกรรม(สาขา)",
     // description:
     //   "Learn how to use @material-tailwind/react, packed with rich components for React.",
-      hrefl: '../EventBranch#'
+      href: '/EventBranch'
   }
 ];
  

@@ -142,7 +142,6 @@ export default function Event() {
           text
         ),
     });
-    console.log(data)
     const columns = [
       {
         title: 'ลำดับ',
@@ -194,11 +193,7 @@ export default function Event() {
       },
 
     ];
-    return <Table columns={columns} dataSource={data}
-      scroll={{
-        y: 300
-      }}
-    />;
+    return <Table columns={columns} dataSource={data} style={{ overflow:"auto" }}/>;
   }
 
 

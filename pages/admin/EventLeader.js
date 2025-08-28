@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, Col, Row, Space, Table, Tag, Button, Modal, StyleSheet, Card, Input, Select } from 'antd'
-import { UsergroupAddOutlined } from '@ant-design/icons';
-import App1 from '../Components/showCalendar';
+import { Form, Space, Table, Tag, Button, Modal, Card, Input, Popconfirm } from 'antd'
+
+import CalendarEvent from '../Components/showCalendar';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import InputEventLeader from '../Components/InputEventLeader';
 import ComplexNavbar from '../Components/newNav'
-import {getEventData} from '../../service/event'
-import {getBranchData} from '../../service/branch'
+import { getAllEventStudentData } from '../../service/event'
+import { getBranchData } from '../../service/branch'
 import EditEventLeader from '../Components/EditEventLeader';
 import TokenTable from '../Components/tokenTable';
+import TableList from '../Components/listJoin'
+import AddTokenForm from '../Components/addStudentEvent';
+import { getEventOfStudent } from '../../service/event'
+
+
 export default function EventLeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [setIsModalCalendar, setIsCalendarOpen] = useState(false);
@@ -19,6 +24,10 @@ export default function EventLeader() {
   const [searchBranchText, setSearchBranch] = useState("");
   const [searchYearText, setSearchYear] = useState("");
   const [searchTermText, setSearchTerm] = useState("");
+  const [isModalOpenList, setIsModalOpenList] = useState(false);
+  const [isModalOpenListAdd, setIsModalOpenListAdd] = useState(false);
+  const [addStudentEvent, setStudentEvent] = useState([]);
+  const [eventProps, setEventProps] = useState([])
   const [dataEdit, setDataEdit] = useState({
     data: []
   });
@@ -27,10 +36,10 @@ export default function EventLeader() {
   }, [])
 
   const syncData = async () => {
-    const getEvent = await getEventData();
+    const getEvent = await getAllEventStudentData();
     const getBranch = await getBranchData()
-    setData(getEvent.data)
-    setBranchData(getBranch.data)
+    setData(getEvent?.data)
+    setBranchData(getBranch?.data)
   }
 
   const years = range(2020, (new Date().getFullYear()) + 1, 1);
@@ -163,14 +172,14 @@ export default function EventLeader() {
         }
 
       },
-      {
-        title: 'ชื่อกิจกรรม',
-        dataIndex: 'title',
-        key: 'title',
-        ...getColumnSearchProps('title'),
-        responsive: ['md'],
+      // {
+      //   title: 'ชื่อกิจกรรม',
+      //   dataIndex: 'title',
+      //   key: 'title',
+      //   ...getColumnSearchProps('title'),
+      //   responsive: ['md'],
 
-      },
+      // },
       {
         title: 'ปีการศึกษา',
         key: 'year',
@@ -199,7 +208,7 @@ export default function EventLeader() {
       },
       {
         title: 'ระดับกิจกรรม',
-        key: '',
+        key: 'level_event',
         render: (_, record) => {
 
           if (record.level_event === "คณะ") {
@@ -208,8 +217,8 @@ export default function EventLeader() {
           else if (record.level_event === "สาขา") {
             return (
               <>
-                <Tag color='green'>{record.level_event}</Tag><br />
-                <Tag color={"orange"}>{record?.branchJoinEvent?.branch_name}</Tag>
+                <Tag key={record.level_event} color='green'>{record.level_event}</Tag><br />
+                <Tag key={record?.branchJoinEvent?.branch_name} color={"orange"}>{record?.branchJoinEvent?.branch_name}</Tag>
               </>
             )
 
@@ -244,6 +253,18 @@ export default function EventLeader() {
           <Space size="middle">
             <Button className={'hover:translate-1 hover:scale-110 duration-300 border-amber-300 text-amber-400 hover:bg-amber-300 hover:text-white'} onClick={(e) => showModal(record)} type='button'>
               ตรวจสอบ/แก้ไข
+            </Button>
+          </Space>
+        ),
+        responsive: ['md']
+      },
+      {
+        title: 'รายชื่อที่เข้าร่วม',
+        key: 'action',
+        render: (_, record) => (
+          <Space size="middle">
+            <Button className={'hover:translate-1 hover:scale-110 duration-300 border-red-900 text-red-700 hover:bg-red-700 hover:text-white'} onClick={(e) => showModalList(record)} type='button'>
+              รายชื่อที่เข้าร่วม
             </Button>
           </Space>
         ),
@@ -287,6 +308,22 @@ export default function EventLeader() {
   const onCancel = () => {
     setIsModalOpen(false);
   };
+  const showModalList = async (props) => {
+    const studentList = await getEventOfStudent(props.id)
+    setStudentEvent(studentList.data)
+    setEventProps(props)
+    setIsModalOpenList(true);
+  };
+  const onCancelList = () => {
+    setIsModalOpenList(false);
+  };
+  const showModalListAdd = () => {
+    setIsModalOpenListAdd(true);
+  };
+  const onCancelListAdd = () => {
+    setIsModalOpenListAdd(false);
+  };
+
 
   return (
     <div className="relative isolate overflow-hidden py-3 sm:py-5 lg:py-5 tracking-wider bg-slate-50">
@@ -343,7 +380,7 @@ export default function EventLeader() {
                 <option value={"คณะ"}>คณะ</option>
                 <option value={"สาขาทั้งหมด"}>ทุกสาขา</option>
                 {branchData.map((text) => (
-                  <option value={text.branch_name}>{text.branch_name}</option>
+                  <option key={text?.id} value={text?.branch_name}>{text?.branch_name}</option>
                 ))}
               </select>
             </Form.Item>
@@ -356,7 +393,7 @@ export default function EventLeader() {
               <select id="year" className="bg-white border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-slate-400 focus:border-blue-100  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value={""} >ทั้งหมด</option>
                 {years.map((year) => (
-                  <option value={year + 543} >{year + 543}</option>
+                  <option key={year} value={year + 543} >{year + 543}</option>
                 ))}
 
               </select>
@@ -375,7 +412,7 @@ export default function EventLeader() {
             </Form.Item>
           </div>
           <div className='w-full text-end lg:items-center my-5 lg:my-0 lg:w-1/12'>
-            <button htmlType="submit" type="submit" className="hover:translate-1 hover:scale-110 duration-300 text-rose-600 hover:bg-rose-700 shadow bg-orange-50 hover:text-white font-medium rounded-lg text-sm px-9 py-2.5 text-center inline-flex items-center mr-2">
+            <button type="submit" className="hover:translate-1 hover:scale-110 duration-300 text-rose-600 hover:bg-rose-700 shadow bg-orange-50 hover:text-white font-medium rounded-lg text-sm px-9 py-2.5 text-center inline-flex items-center mr-2">
               <svg style={{ height: "15" }} fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path clipRule="evenodd" fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"></path></svg>
               &nbsp;&nbsp;ค้นหา
@@ -412,7 +449,7 @@ export default function EventLeader() {
 
         ]}
       >
-        <App1 />
+        <CalendarEvent />
       </Modal>
       <Modal
         width={'80%'}
@@ -425,7 +462,42 @@ export default function EventLeader() {
         ]}
       >
         <InputEventLeader />
-        
+
+      </Modal>
+
+      <Modal
+        width={'80%'}
+        title="รายชื่อนักศึกษาที่เข้าร่วมกิจกรรม"
+        key={`${addStudentEvent?.id}addEvent`}
+        open={isModalOpenList}
+        onCancel={onCancelList}
+        footer={[
+          <div className="inline-flex" key={`${addStudentEvent?.id}addEventButton`} >
+            <p className='my-2'>นักศึกษาที่เข้าร่วม : </p>
+            <p className='my-2 text-start'>{addStudentEvent?.length}/{eventProps?.quota}</p>
+            <div className=' pl-3 '>
+              <Button type="submit" onClick={() => showModalListAdd()} className="text-white bg-green-600 hover:bg-green-800  focus:outline-none focus:ring-4 focus:ring-green-300 rounded-full text-sm pt-2.5 pb-8 text-center dark:bg-red-600 dark:hover:bg-red-800 dark:focus:ring-red-900">
+                เพิ่มนักศึกษา
+              </Button>
+            </div>
+
+          </div>
+        ]}
+      >
+        <TableList data={addStudentEvent} />
+
+      </Modal>
+      <Modal
+        width={'50%'}
+        title="เพิ่มรายชื่อนักศึกษา"
+        open={isModalOpenListAdd}
+        onCancel={onCancelListAdd}
+        footer={[
+
+        ]}
+      >
+        <AddTokenForm data={eventProps} />
+
       </Modal>
     </div>
 

@@ -26,21 +26,25 @@ import {
   Bars2Icon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
- 
+
 // profile menu component
 const profileMenuItems = [
- 
+
   {
     label: "Sign Out",
     icon: PowerIcon,
-    href: '/'
+
   },
 ];
- 
+
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
- 
+  const router = useRouter();
+  const singOut = () => {
+    localStorage.clear();
+    router.push(`${process.env.NEXT_PUBLIC_WEB_URL_CWIE}`)
+  }
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -49,26 +53,24 @@ function ProfileMenu() {
           color="blue-gray"
           className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
         >
-        
+
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`h-3 w-3 transition-transform ${
-              isMenuOpen ? "rotate-180" : ""
-            }`}
+            className={`h-3 w-3 transition-transform ${isMenuOpen ? "rotate-180" : ""
+              }`}
           />
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon, hrefl }, key, href ) => {
+        {profileMenuItems.map(({ label, icon, hrefl }, key, href) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
-              className={`flex items-center mt-2 gap-3 rounded ${
-                isLastItem
-                  ? "hover:bg-red-500/10 mt-5 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
-              }`}
+              className={`flex items-center mt-2 gap-3 rounded ${isLastItem
+                ? "hover:bg-red-500/10 mt-5 focus:bg-red-500/10 active:bg-red-500/10"
+                : ""
+                }`}
             >
               {React.createElement(icon, {
                 className: `h-5 w-5 ${isLastItem ? "text-red-500" : ""}`,
@@ -76,7 +78,7 @@ function ProfileMenu() {
               })}
               <Typography
                 as="a"
-                href={hrefl}
+                onClick={singOut}
                 variant="small"
                 className=" font-extralight"
                 color={isLastItem ? "red" : "inherit"}
@@ -90,80 +92,83 @@ function ProfileMenu() {
     </Menu>
   );
 }
- 
+
 // nav list menu
 const navListMenuItems = [
   {
     title: "กิจกรรม(คณะ)",
-  
-      hrefl: 'EventLeader'
+
+    hrefl: 'EventLeader'
   },
   {
     title: "กิจกรรม(สาขา)",
-      hrefl: 'EventBranch'
+    hrefl: 'EventBranch'
   }
 ];
- 
+
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
- 
+
   const triggers = {
     onMouseEnter: () => setIsMenuOpen(true),
     onMouseLeave: () => setIsMenuOpen(false),
   };
- 
 
- 
+
+
   return (
     <React.Fragment >
       <Menu open={isMenuOpen} handler={setIsMenuOpen}>
         <MenuHandler>
           <Typography as="a" href="#" variant="small" className="font-normal">
-       
+
           </Typography>
         </MenuHandler>
         <MenuList
           {...triggers}
           className="hidden w-[36rem] grid-cols-3 gap-3 overflow-visible lg:grid"
         >
-       
+
           <ul className="col-span-4 flex w-full flex-col gap-1">
             {/* {renderItems} */}
           </ul>
         </MenuList>
       </Menu>
-   
+
     </React.Fragment>
   );
 }
- 
+
 // nav list component
 const navListItems = [
-//   {
-//     label: "Account",
-//     icon: UserCircleIcon,
-//   },
+  //   {
+  //     label: "Account",
+  //     icon: UserCircleIcon,
+  //   },
   {
     label: "กิจกรรมที่เปิดรับ",
     icon: Square3Stack3DIcon,
-    hrefl: '/student/Event'
+    href: '/student/Event'
   },
   {
     label: "กิจกรรมที่เข้าร่วม",
     icon: CodeBracketSquareIcon,
-    hrefl: '/student/Evented'
+    href: '/student/Evented'
   },
 ];
- 
+
 function NavList() {
+  const router = useRouter();
+
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center text-slate-700">
       <NavListMenu />
-      {navListItems.map(({ label, icon, hrefl }, key, href) => (
+      {navListItems.map(({ label, icon, href }, key) => (
+
         <Typography
           key={label}
           as="a"
-          href={hrefl}
+          onClick={()=>router.push(`${href}`)}
           variant="small"
           color="blue-gray"
           className="font-normal"
@@ -173,12 +178,13 @@ function NavList() {
             {label}
           </MenuItem>
         </Typography>
+
       ))}
-     
+
     </ul>
   );
 }
- 
+
 export default function NavS() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
@@ -189,13 +195,13 @@ export default function NavS() {
       () => window.innerWidth >= 960 && setIsNavOpen(false)
     );
   }, []);
- 
+
   return (
     <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6 text-slate-700 ">
       <div className="relative mx-auto flex items-center text-blue-gray-900">
         <Typography
           as="a"
-          onClick={()=>router.push('/')}
+          onClick={() => router.push('/')}
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
           Faculty&nbsp;of&nbsp;Industrial&nbsp;Technology
@@ -210,7 +216,7 @@ export default function NavS() {
           onClick={toggleIsNavOpen}
           className="ml-auto mr-2 lg:hidden"
         >
-          <Bars2Icon style={{margin:-12}} className="h-6 w-6"/>
+          <Bars2Icon style={{ margin: -12 }} className="h-6 w-6" />
         </IconButton>
         <ProfileMenu />
       </div>

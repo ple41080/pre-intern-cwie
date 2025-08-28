@@ -20,8 +20,7 @@ export default function EventTable() {
 
     const syncData = async () => {
         const getEventStudent = await getAllEventStudentData();
-
-        setData(getEventStudent.data)
+        setData(getEventStudent?.data)
     }
 
     const columns = [
@@ -74,7 +73,7 @@ export default function EventTable() {
             render: (_, record) => {
                 let list = 0;
                 for (let i of record.Token) {
-                    if(i.EventStudentList !== null){
+                    if (i.EventStudentList !== null) {
                         list += 1
                     }
                 }
@@ -89,22 +88,22 @@ export default function EventTable() {
         },
     ];
     const DetailColumn = [
-        {
-            title: "",
-            dataIndex: "title",
-            key: "title",
-            responsive: ['xs', 'sm', 'xl'],
-            render: (text) =>
-                <th>{text}</th>
+        // {
+        //     title: "_",
+        //     dataIndex: "title",
+        //     key: "title",
+        //     responsive: ['xs', 'sm', 'xl'],
+        //     render: (text) =>
+        //         <th>{text}</th>
 
-            ,
-        },
-        {
-            title: "",
-            dataIndex: "detail",
-            key: "detail",
-            responsive: ['xs', 'sm', 'xl'],
-        }
+        //     ,
+        // },
+        // {
+        //     title: "_",
+        //     dataIndex: "detail",
+        //     key: "detail",
+        //     responsive: ['xs', 'sm', 'xl'],
+        // }
     ];
     //Info modal
     const tokenShow = (index) => () => {
@@ -151,7 +150,7 @@ export default function EventTable() {
                 title={[<BulbOutlined key={data?.id} />, 'ข้อมูลกิจกรรม']}
                 open={isEventOpen} onCancel={eventCancel}
                 footer={[
-                    <button key={data?.id} type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={eventCancel}>
+                    <button key={data?.id} type="button" className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={eventCancel}>
                         Cancel
                     </button>,
                 ]}>

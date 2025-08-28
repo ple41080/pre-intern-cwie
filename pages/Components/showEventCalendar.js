@@ -93,17 +93,17 @@ export default function SEcalendar() {
                         <label>สาขา <span className=' text-red-700'>*หากเลือกระดับกิจกรรมเป็นคณะจะไม่ทำการเลือกสาขาได้</span></label>
                         <Form.Item
                             name="courseEvent"
-                            // rules={[{ required: true, message: 'กรุณาเลือกสาขา' }]}
+                        // rules={[{ required: true, message: 'กรุณาเลือกสาขา' }]}
                         >
                             <Select disabled
-                            placeholder="กรุณาเลือกสาขา"
-                            value={secondAreas}
-                            onChange={onSecondAreasChange}
-                            options={areas.map((area) => ({
-                              label: area,
-                              value: area,
-                            }))}
-                             id="courseEvent" className="bg-gray-50 mt-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                placeholder="กรุณาเลือกสาขา"
+                                value={secondAreas}
+                                onChange={onSecondAreasChange}
+                                options={areas.map((area) => ({
+                                    label: area,
+                                    value: area,
+                                }))}
+                                id="courseEvent" className="bg-gray-50 mt-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </Select>
                         </Form.Item>
                     </div>
@@ -117,7 +117,7 @@ export default function SEcalendar() {
                         </Form.Item>
                     </div>
                     <div className='w-full sm:w-3/4 mt-2'>
-                        <label for="placeEvent">สถานที่จัดกิจกรรม</label>
+                        <label htmlFor="placeEvent">สถานที่จัดกิจกรรม</label>
                         <Form.Item
                             name="placeEvent"
                             rules={[

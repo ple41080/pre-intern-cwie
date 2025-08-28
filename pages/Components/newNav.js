@@ -29,32 +29,24 @@ import { useRouter } from "next/router";
 
 // profile menu component
 const profileMenuItems = [
-  {
-    label: "My Profile",
-    icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Inbox",
-    icon: InboxArrowDownIcon,
-  },
-  {
-    label: "Help",
-    icon: LifebuoyIcon,
-  },
+
   {
     label: "Sign Out",
     icon: PowerIcon,
-    hrefl: '../main#'
+
   },
 ];
+
+
 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
+  const router = useRouter();
+  const singOut = () => {
+    localStorage.clear();
+    router.push(`${process.env.NEXT_PUBLIC_WEB_URL_CWIE}`)
+  }
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -86,8 +78,8 @@ function ProfileMenu() {
               key={label}
               onClick={closeMenu}
               className={`flex items-center gap-2 rounded ${isLastItem
-                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
+                ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                : ""
                 }`}
             >
               {React.createElement(icon, {
@@ -96,7 +88,7 @@ function ProfileMenu() {
               })}
               <Typography
                 as="a"
-                href={hrefl}
+                onClick={singOut}
                 variant="small"
                 className="font-normal"
                 color={isLastItem ? "red" : "inherit"}
@@ -195,20 +187,7 @@ function NavListMenu() {
 
 // nav list component
 const navListItems = [
-  //   {
-  //     label: "Account",
-  //     icon: UserCircleIcon,
-  //   },
-  {
-    label: "กิจกรรม",
-    icon: Square3Stack3DIcon,
-    hrefl: '../admin/EventBranch'
-  },
-  {
-    label: "รายชื่อนักศึกษา",
-    icon: CodeBracketSquareIcon,
-    hrefl: '../admin/listName#'
-  },
+
 ];
 
 function NavList() {

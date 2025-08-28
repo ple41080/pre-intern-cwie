@@ -49,7 +49,7 @@ export default function EditEventBranch(props) {
             "venue": value.venue,
             "year": value.year
         }
-        const sendForm = await axiosInstance.patch(`/events/updateEvent/${data.id}`, raw)
+        const sendForm = await axiosInstance.patch(`/events/updateEvent/${data?.id}`, raw)
 
         if (sendForm.data.status === 200) {
             messageApi.open({
@@ -67,13 +67,13 @@ export default function EditEventBranch(props) {
                     layout="inline"
                     name='registerForm'
                     onFinish={sendData}
-                    key={data.id}
+                    key={data?.id}
                 >
                     <div className='w-full sm:w-2/4 mt-2'>
                         <label htmlFor="title">ชื่อกิจกรรม</label>
                         <Form.Item
                             name="title"
-                            initialValue={data.title}
+                            initialValue={data?.title}
                             rules={[
                                 {
                                     required: true,
@@ -88,7 +88,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="quota">จำนวนคนที่รับ</label>
                         <Form.Item
                             name="quota"
-                            initialValue={data.quota}
+                            initialValue={data?.quota}
                             rules={[
                                 {
                                     required: true,
@@ -103,7 +103,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="hour_event">จำนวนชั่วโมง</label>
                         <Form.Item
                             name="hour_event"
-                            initialValue={data.hour_event}
+                            initialValue={data?.hour_event}
                             rules={[
                                 {
                                     required: true,
@@ -120,7 +120,7 @@ export default function EditEventBranch(props) {
                         <label>สาขา</label>
                         <Form.Item
                             name="branch_id"
-                            initialValue={data.branch_id}
+                            initialValue={data?.branch_id}
                             rules={[{ required: true, message: 'กรุณาเลือกสาขา' }]}
                         >
                             <Select
@@ -141,7 +141,7 @@ export default function EditEventBranch(props) {
                         <label>ปีการศึกษา</label>
                         <Form.Item
                             name="year"
-                            initialValue={data.year}
+                            initialValue={data?.year}
                             rules={[{ required: true, message: 'กรุณากรอกปีการศึกษา' }]}
                         >
                             <Input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
@@ -151,7 +151,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="term">ภาคเรียนที่</label>
                         <Form.Item
                             name="term"
-                            initialValue={data.term}
+                            initialValue={data?.term}
                             rules={[
                                 {
                                     required: true,
@@ -171,7 +171,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="venue">สถานที่จัดกิจกรรม</label>
                         <Form.Item
                             name="venue"
-                            initialValue={data.venue}
+                            initialValue={data?.venue}
                             rules={[
                                 {
                                     required: true,
@@ -182,12 +182,12 @@ export default function EditEventBranch(props) {
                             <Input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                         </Form.Item>
                     </div>
-                  
+
                     <div className='mt-2 w-full sm:w-1/2'>
                         <label htmlFor="start_date">วันที่เริ่มกิจกรรม</label>
                         <Form.Item
                             name="start_date"
-                            initialValue={data.start_date}
+                            initialValue={data?.start_date}
                             rules={[
                                 {
                                     required: true,
@@ -202,7 +202,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="end_date">วันที่สิ้นสุดกิจกรรม</label>
                         <Form.Item
                             name="end_date"
-                            initialValue={data.end_date}
+                            initialValue={data?.end_date}
                             rules={[
                                 {
                                     required: true,
@@ -217,7 +217,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="start_time">เวลาเริ่มกิจกรรม</label>
                         <Form.Item
                             name="start_time"
-                            initialValue={data.start_time}
+                            initialValue={data?.start_time}
                             rules={[
                                 {
                                     required: true,
@@ -232,7 +232,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="end_time">เวลาสิ้นสุดกิจกรรม</label>
                         <Form.Item
                             name="end_time"
-                            initialValue={data.end_time}
+                            initialValue={data?.end_time}
                             rules={[
                                 {
                                     required: true,
@@ -247,7 +247,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="exdDate_token">วันที่ปิดรับ token </label>
                         <Form.Item
                             name="exdDate_token"
-                            initialValue={data.exdDate_token}
+                            initialValue={data?.exdDate_token}
 
                             rules={[
                                 {
@@ -263,7 +263,7 @@ export default function EditEventBranch(props) {
                         <label htmlFor="exdTime_token">เวลาปิดรับ token </label>
                         <Form.Item
                             name="exdTime_token"
-                            initialValue={data.exdTime_token}
+                            initialValue={data?.exdTime_token}
                             rules={[
                                 {
                                     required: true,
@@ -277,8 +277,7 @@ export default function EditEventBranch(props) {
 
                     <div className='mt-2 w-full'>
                         <button
-                            type="primary"
-                            htmlType="submit"
+                            type="submit"
                             className="text-white bg-green-600 hover:bg-green-800 float-right focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-8 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         >
                             ยืนยัน/แก้ไข
